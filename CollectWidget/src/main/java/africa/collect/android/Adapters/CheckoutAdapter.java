@@ -99,9 +99,11 @@ public class CheckoutAdapter extends RecyclerView.Adapter<CheckoutAdapter.ViewHo
         }else{
             totalDue = (paymentMethods.get(position).getCharge_percentage()/100 * amount) + amount;
         }
-
-        holder.feeText.setText(context.getString(R.string.charge_text, formatAmount(totalDue)));
-
+        if (paymentMethods.get(position).isPassFee()){
+            holder.feeText.setText(context.getString(R.string.charge_text, formatAmount(totalDue)));
+        }  else{
+            holder.feeText.setText(context.getString(R.string.charge_text, formatAmount(amount)));
+        }
         // svg transcode
         if (paymentMethodIconUrl.contains("svg")){
             loadPaymentMethodIcon(paymentMethodIconUrl,holder.paymentMethodIcon);

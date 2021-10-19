@@ -72,6 +72,7 @@ public class BankTransfer extends BottomSheetDialogFragment {
     CheckStatus status;
     String enviroment;
     double percentCharge;
+    boolean passFee;
 
     //   Views
     TextView companyName,amountText, countDownTimer,bankName,accountNumber,accountName,checkStatusText;
@@ -219,7 +220,12 @@ public class BankTransfer extends BottomSheetDialogFragment {
             totalDue  =  (percentCharge/100 * amountInNaira) + amountInNaira;
         }
 
-        amountText.setText(getString(R.string.amount_text, formatAmount(totalDue)));
+        if (passFee){
+            amountText.setText(getString(R.string.amount_text, formatAmount(totalDue)));
+        }else{
+            amountText.setText(getString(R.string.amount_text, formatAmount(totalDue)));
+        }
+
 
         //company name
         companyName.setText(getString(R.string.company_name_text, businessName));
@@ -230,7 +236,7 @@ public class BankTransfer extends BottomSheetDialogFragment {
         DecimalFormat decim = new DecimalFormat("#,###.##");
         return decim.format(amt);
     }
-    public BankTransfer(ChargeRequest chargeRequest, String businessName, int amount, double percentCharge, OnSuccess onSuccess, OnFailed onFailed, String enviroment, int percentChargeCap){
+    public BankTransfer(ChargeRequest chargeRequest, String businessName, int amount, double percentCharge, OnSuccess onSuccess, OnFailed onFailed, String enviroment, int percentChargeCap, boolean passFee){
         this.chargeRequest = chargeRequest;
         this.businessName=businessName;
         this.amount=amount;
@@ -239,6 +245,7 @@ public class BankTransfer extends BottomSheetDialogFragment {
         this.onFailed = onFailed;
         this.enviroment =enviroment;
         this.percentChargeCap = percentChargeCap;
+        this.passFee = passFee;
     }
 
 

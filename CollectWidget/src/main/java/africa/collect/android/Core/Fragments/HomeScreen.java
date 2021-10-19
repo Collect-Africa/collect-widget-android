@@ -79,6 +79,7 @@ public class HomeScreen extends BottomSheetDialogFragment {
     CheckoutInit init;
     String enviroment;
     Analytics analytics;
+    boolean passFee;
 
     //Views
     ProgressBar loader;
@@ -148,7 +149,7 @@ public class HomeScreen extends BottomSheetDialogFragment {
                         amount = (collectWidgetModel.getAmount() / 100);
                          percentageCharge =  (paymentMethods.get(position).getCharge_percentage()/100 * amount);
                         ChargeRequest chargeRequest = new ChargeRequest(init.getData().getEmail(), collectWidgetModel.getpublic_key(), init.getData().getReference(), "ng_bank_transfer", collectWidgetModel.getAmount());
-                        new BankTransfer(chargeRequest, init.getData().getBusiness_name(),init.getData().getAmount(),paymentMethods.get(position).getCharge_percentage(), onSuccess, onFailed, enviroment, init.getData().getPayment_methods().get(position).getCharge_cap()).show(getFragmentManager(), "bank_transfer");
+                        new BankTransfer(chargeRequest, init.getData().getBusiness_name(),init.getData().getAmount(),paymentMethods.get(position).getCharge_percentage(), onSuccess, onFailed, enviroment, init.getData().getPayment_methods().get(position).getCharge_cap(), passFee).show(getFragmentManager(), "bank_transfer");
                         security_footnote.setVisibility(View.GONE);
                         com.segment.analytics.Analytics.with(getContext()).track("Payment Method Clicked", new Properties().putValue("payment_method", paymentMethods.get(position).getName()));
                         new africa.collect.android.Utils.Analytics().Track(getContext(), "Payment Processing",  "email", collectWidgetModel.getEmail());
@@ -157,35 +158,19 @@ public class HomeScreen extends BottomSheetDialogFragment {
                     case "ng_barter":
                         amount = (collectWidgetModel.getAmount() / 100);
                         percentageCharge = (paymentMethods.get(position).getCharge_percentage() / 100 * amount);
-                        if (percentageCharge > paymentMethods.get(position).getCharge_cap()){
-                            totalDue = paymentMethods.get(position).getCharge_cap() + amount;
-                        }else{
-                            totalDue = (paymentMethods.get(position).getCharge_percentage()/100 * amount) + amount;
-                        }
-                        initBarter(init.getData().getEmail(), init.getData().getFirst_name(), init.getData().getLast_name(), init.getData().getCode(), collectWidgetModel.getCurrency(), totalDue);
-                        com.segment.analytics.Analytics.with(getContext()).track("Payment Method Clicked", new Properties().putValue("payment_method", paymentMethods.get(position).getName()));
+                        initBarter(init.getData().getEmail(), init.getData().getFirst_name(), init.getData().getLast_name(), init.getData().getCode(), collectWidgetModel.getCurrency(), amount, percentageCharge, paymentMethods.get(position).getCharge_cap(), passFee);
+                        Analytics.with(getContext()).track("Payment Method Clicked", new Properties().putValue("payment_method", paymentMethods.get(position).getName()));
                         break;
+
                     case "ng_card":
                         amount = (collectWidgetModel.getAmount() / 100);
                         percentageCharge = (paymentMethods.get(position).getCharge_percentage() / 100 * amount);
-
-                        if (percentageCharge > paymentMethods.get(position).getCharge_cap()){
-                            totalDue = paymentMethods.get(position).getCharge_cap() + amount;
-                        }else{
-                            totalDue = (paymentMethods.get(position).getCharge_percentage()/100 * amount) + amount;
-                        }
-                        initCardPayment(totalDue, init.getData().getFirst_name()+" "+ init.getData().getLast_name(), init.getData().getEmail(), init.getData().getCode());
+                        initCardPayment(amount, init.getData().getFirst_name()+" "+ init.getData().getLast_name(), init.getData().getEmail(), init.getData().getCode(), passFee, percentageCharge, paymentMethods.get(position).getCharge_cap());
                         com.segment.analytics.Analytics.with(getContext()).track("Payment Method Clicked", new Properties().putValue("payment_method", paymentMethods.get(position).getName()));
                         break;
                     case "ng_bank_payment_okra":
                         //Direct Debit
-                        amount = (collectWidgetModel.getAmount() / 100);
-                        percentageCharge = (paymentMethods.get(position).getCharge_percentage() / 100 * amount);
-                        if (percentageCharge > paymentMethods.get(position).getCharge_cap()){
-                            totalDue = paymentMethods.get(position).getCharge_cap() + amount;
-                        }else{
-                            totalDue = (paymentMethods.get(position).getCharge_percentage()/100 * amount) + amount;
-                        }
+
                         initDirectDebit(init.getData().getBusiness_name(), init.getData().getWidget_data());
                         com.segment.analytics.Analytics.with(getContext()).track("Payment Method Clicked", new Properties().putValue("payment_method", paymentMethods.get(position).getName()));
                         break;
@@ -231,11 +216,23 @@ public class HomeScreen extends BottomSheetDialogFragment {
 
 
 
-    private void initCardPayment(double amount, String name, String email, String ref) {
+    private void initCardPayment(double amount, String name, String email, String ref, boolean passFee, double percentageCharge, int chargeCap) {
+
+        double totalDue,chargeAmount;
+        if (percentageCharge >chargeCap){
+            totalDue = chargeCap + amount;
+        }else{
+            totalDue = (percentageCharge/100 * amount) + amount;
+        }
+        if (passFee){
+            chargeAmount = totalDue;
+        }   else {
+            chargeAmount = amount;
+        }
         Intent intent = new Intent(getContext(), MonnifyActivity.class);
         intent.putExtra("name", name);
         intent.putExtra("email", email);
-        intent.putExtra("amount", amount);
+        intent.putExtra("amount", chargeAmount);
         intent.putExtra("ref", ref);
         if (enviroment == SANDBOX){
             intent.putExtra("env", "SANDBOX");
@@ -247,7 +244,14 @@ public class HomeScreen extends BottomSheetDialogFragment {
 
     }
 
-    private void initBarter(String email, String fName, String lName, String ref, String currency, double amount) {
+    private void initBarter(String email, String fName, String lName, String ref, String currency, double amount, double percentageCharge,  int chargeCap, boolean passFee) {
+
+        double totalDue;
+        if (percentageCharge > chargeCap){
+            totalDue = chargeCap + amount;
+        }else{
+            totalDue = (percentageCharge/100 * amount) + amount;
+        }
 
         String pub_key = "", enc_key="";
         switch (enviroment){
@@ -261,7 +265,11 @@ public class HomeScreen extends BottomSheetDialogFragment {
                 break;
         }
         Intent intent  = new Intent(getContext(), FlutterWaveActivity.class);
-        intent.putExtra("amount", amount);
+        if (passFee){
+            intent.putExtra("amount", totalDue);
+        }else{
+            intent.putExtra("amount", amount);
+        }
         intent.putExtra("currency", currency);
         intent.putExtra("email", email);
         intent.putExtra("fName", fName);
@@ -301,11 +309,14 @@ public class HomeScreen extends BottomSheetDialogFragment {
 
                     for (int a =0 ; a<paymentMethods.size(); a++){
                         checkoutInit.getData().getPayment_methods().get(a).setAmount(collectWidgetModel.getAmount());
+                        checkoutInit.getData().getPayment_methods().get(a).setPassFee(checkoutInit.getData().isPass_fee());
                     }
 
                     recyclerView.setAdapter(checkoutAdapter);
+
                     //convert Kobo to naira
                     int amount = collectWidgetModel.getAmount()/100;
+                    passFee = checkoutInit.getData().isPass_fee();
                     amountText.setText(getString(R.string.amount_text, checkoutAdapter.formatAmount(amount)));
 
                     //company name
@@ -384,6 +395,14 @@ public class HomeScreen extends BottomSheetDialogFragment {
 
     public void initDirectDebit(String clientName, WidgetData widgetData){
 
+//        amount = (collectWidgetModel.getAmount() / 100);
+//        percentageCharge = (paymentMethods.get(position).getCharge_percentage() / 100 * amount);
+//        if (percentageCharge > paymentMethods.get(position).getCharge_cap()){
+//            totalDue = paymentMethods.get(position).getCharge_cap() + amount;
+//        }else{
+//            totalDue = (paymentMethods.get(position).getCharge_percentage()/100 * amount) + amount;
+//        }
+
         final Map<String, Object> charge = new HashMap<>();
         charge.put("type", "one-time");
         charge.put("amount",collectWidgetModel.getAmount());
@@ -459,14 +478,14 @@ public class HomeScreen extends BottomSheetDialogFragment {
     public void onDestroy() {
         super.onDestroy();
         new africa.collect.android.Utils.Analytics().Track(getContext(), "Checkout closed",  "email", collectWidgetModel.getEmail());
-        onClose.OnClose("Quitting Collect Africa");
+        onClose.OnClose();
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
         new africa.collect.android.Utils.Analytics().Track(getContext(), "Checkout closed",  "email", collectWidgetModel.getEmail());
-        onClose.OnClose("Quitting Collect Africa");
+        onClose.OnClose();
     }
 
     @Override

@@ -5,6 +5,15 @@ public class PaymentMethods {
     int charge_cap;
     Double charge_percentage;
     int amount;
+    boolean passFee;
+
+    public boolean isPassFee() {
+        return passFee;
+    }
+
+    public void setPassFee(boolean passFee) {
+        this.passFee = passFee;
+    }
 
     public int getAmount() {
         return amount;
@@ -38,9 +47,10 @@ public class PaymentMethods {
         this.charge_cap = charge_cap;
     }
 
-    public PaymentMethods(String name, Double charge_percentage, int charge_cap) {
+    public PaymentMethods(String name, Double charge_percentage, int charge_cap, boolean passFee) {
         this.name = name;
         this.charge_percentage = charge_percentage;
         this.charge_cap = charge_cap;
+        this.passFee = passFee;
     }
 }

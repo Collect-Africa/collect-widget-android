@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity  {
                                 )
                         .build(MainActivity.this, new OnClose() {
                             @Override
-                            public void OnClose(String message) {
+                            public void OnClose() {
                                 //Modal Closed
                             }
                         }, new OnFailed() {

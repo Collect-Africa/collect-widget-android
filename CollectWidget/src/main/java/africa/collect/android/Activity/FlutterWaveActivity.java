@@ -47,7 +47,7 @@ public class FlutterWaveActivity extends AppCompatActivity {
                     .acceptBarterPayments(true)
                     .allowSaveCardFeature(false)
                     .onStagingEnv(isSandbox)
-                .shouldDisplayFee(true)
+                     .shouldDisplayFee(true)
                     .initialize();
 
     }
