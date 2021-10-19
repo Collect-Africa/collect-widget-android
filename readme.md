@@ -48,36 +48,36 @@ Initialize the SDK:
 
 ```java
   new CollectWidget()
-    .CollectCheckout(
-      "john.doe@examlple.com", //customer email | required
-      "John", //customer first name | required
-      "Doe", //customer last email | required
-      generateRef(), // your payment reference | required
-      10000, // Amount in Kobo | required
-      "NGN", // Currency 
-      "", // itemImage | optional
-      Enviroment.SANDBOX, // [ Enviroment.SANDBOX,Enviroment.LIVE ] | required
-      "your_collect_africa_public_key" // your collect Africa publickey
-    )
-    .build(Activity, new OnClose() {
-      @Override
-      public void OnClose() {
+        .CollectCheckout(
+        "john.doe@examlple.com", //customer email | required
+        "John", //customer first name | required
+        "Doe", //customer last email | required
+        generateRef(), // your payment reference | required
+        10000, // Amount in Kobo | required
+        "NGN", // Currency 
+        "", // itemImage | optional
+        Enviroment.SANDBOX, // [ Enviroment.SANDBOX,Enviroment.LIVE ] | required
+        "your_collect_africa_public_key" // your collect Africa publickey
+        )
+        .build(Activity, new OnClose() {
+@Override
+public void OnClose() {
         //Modal Closed
-      }
-    }, new OnFailed() {
-      @Override
-      public void OnFailed(String msg) {
+        }
+        }, new OnFailed() {
+@Override
+public void OnFailed(String msg) {
         //payment failed
-       Toast.makeText(activity, msg, Toast.LENGTH_LONG ).show();
+        Toast.makeText(activity, msg, Toast.LENGTH_LONG).show();
 
-      }
-    }, new OnSuccess() {
-      @Override
-      public void OnSuccess(String reference, int amount) {
-      // payment successful!
-        Toast.makeText(activity, msg, Toast.LENGTH_LONG ).show();
-      }
-    });
+        }
+        }, new OnSuccess() {
+@Override
+public void OnSuccess(String reference, int amount) {
+        // payment successful!
+        Toast.makeText(activity, msg, Toast.LENGTH_LONG).show();
+        }
+        });
 ```
 
 
