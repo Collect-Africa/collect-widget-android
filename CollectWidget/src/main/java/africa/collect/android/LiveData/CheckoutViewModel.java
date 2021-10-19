@@ -36,6 +36,7 @@ public class CheckoutViewModel  extends ViewModel {
     public void initializeCheckout(CollectWidgetModel body, String enviroment){
         ApiService apiService= RetrofitInstance.getRetrofitClient(enviroment).create(ApiService.class);
         Call<CheckoutInit> apiCall = apiService.initializeCheckout(body);
+        Log.d(TAG, apiCall.request().url().toString());
         apiCall.enqueue(new Callback<CheckoutInit>() {
             @Override
             public void onResponse(Call<CheckoutInit> call, Response<CheckoutInit> response) {

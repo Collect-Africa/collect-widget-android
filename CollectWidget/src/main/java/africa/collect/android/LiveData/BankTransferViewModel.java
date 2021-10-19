@@ -44,9 +44,12 @@ public class BankTransferViewModel extends ViewModel {
     public void initializeCall(ChargeRequest body, String enviroment){
         ApiService apiService= RetrofitInstance.getRetrofitClient(enviroment).create(ApiService.class);
         Call<ChargeResponse> apiCall = apiService.getBankDetails(body);
+
+
         apiCall.enqueue(new Callback<ChargeResponse>() {
             @Override
             public void onResponse(Call<ChargeResponse> call, Response<ChargeResponse> response) {
+
                 if (response.code() == 200){
                     bankTransferResponseMutableLiveData.postValue(response.body());
                 }else{

@@ -5,6 +5,8 @@ import static africa.collect.android.Utils.Constants.BASE_URL_PROD;
 import static africa.collect.android.Utils.Constants.BASE_URL_TEST;
 import static africa.collect.android.Utils.Enviroment.LIVE;
 
+import android.widget.Toast;
+
 import africa.collect.android.Utils.Enviroment;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -17,9 +19,6 @@ public class RetrofitInstance {
     public static Retrofit retrofit;
 
     public static  Retrofit getRetrofitClient(String enviroment){
-
-
-        if (retrofit == null){
             switch (enviroment){
                 case "LIVE":
                     retrofit= new Retrofit.Builder()
@@ -33,7 +32,6 @@ public class RetrofitInstance {
                             .addConverterFactory(GsonConverterFactory.create())
                             .build();
                     break;
-            }
         }
         return retrofit;
     };

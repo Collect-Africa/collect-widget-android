@@ -99,7 +99,7 @@ public class CheckoutAdapter extends RecyclerView.Adapter<CheckoutAdapter.ViewHo
         }else{
             totalDue = (paymentMethods.get(position).getCharge_percentage()/100 * amount) + amount;
         }
-        if (paymentMethods.get(position).isPassFee()){
+        if (paymentMethod.isPassFee()){
             holder.feeText.setText(context.getString(R.string.charge_text, formatAmount(totalDue)));
         }  else{
             holder.feeText.setText(context.getString(R.string.charge_text, formatAmount(amount)));

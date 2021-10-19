@@ -170,7 +170,6 @@ public class HomeScreen extends BottomSheetDialogFragment {
                         break;
                     case "ng_bank_payment_okra":
                         //Direct Debit
-
                         initDirectDebit(init.getData().getBusiness_name(), init.getData().getWidget_data());
                         com.segment.analytics.Analytics.with(getContext()).track("Payment Method Clicked", new Properties().putValue("payment_method", paymentMethods.get(position).getName()));
                         break;
@@ -234,7 +233,7 @@ public class HomeScreen extends BottomSheetDialogFragment {
         intent.putExtra("email", email);
         intent.putExtra("amount", chargeAmount);
         intent.putExtra("ref", ref);
-        if (enviroment == SANDBOX){
+        if (enviroment.equalsIgnoreCase(SANDBOX)){
             intent.putExtra("env", "SANDBOX");
         }else{
             intent.putExtra("env", "LIVE");
@@ -477,6 +476,7 @@ public class HomeScreen extends BottomSheetDialogFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        enviroment = "";
         new africa.collect.android.Utils.Analytics().Track(getContext(), "Checkout closed",  "email", collectWidgetModel.getEmail());
         onClose.OnClose();
     }
@@ -484,6 +484,7 @@ public class HomeScreen extends BottomSheetDialogFragment {
     @Override
     public void onDetach() {
         super.onDetach();
+        enviroment = "";
         new africa.collect.android.Utils.Analytics().Track(getContext(), "Checkout closed",  "email", collectWidgetModel.getEmail());
         onClose.OnClose();
     }

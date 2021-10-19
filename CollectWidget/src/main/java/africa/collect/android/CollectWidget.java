@@ -1,6 +1,7 @@
 package africa.collect.android;
 
 import android.content.Context;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
@@ -26,12 +27,12 @@ public class CollectWidget {
     String currency;
     String itemImage;
     String public_key;
-    String  enviroment;
+    String  environment;
 
     //Add parameter errors to a List
     List<String> paramErrors = new ArrayList<>();
 
-    public CollectWidget CollectCheckout(String email, String firstName, String lastName, String reference, int amount, String currency, String  itemImage,  String enviroment, String public_key){
+    public CollectWidget CollectCheckout(String email, String firstName, String lastName, String reference, int amount, String currency, String  itemImage,  String environment, String public_key){
        this.email = email;
        this.firstName = firstName;
        this.lastName = lastName;
@@ -39,7 +40,7 @@ public class CollectWidget {
        this.amount = amount;
        this.currency = currency;
        this.itemImage = itemImage;
-       this.enviroment = enviroment;
+       this.environment = environment;
         this.public_key = public_key;
 
         return this;
@@ -49,7 +50,7 @@ public class CollectWidget {
     public void build(Context context, OnClose onClose, OnFailed onFailed, OnSuccess onSuccess){
         if(isVerified(paramErrors)){
             CollectWidgetModel collectWidgetModel = new CollectWidgetModel(email, firstName, lastName, reference, amount, currency, itemImage, public_key);
-            new HomeScreen(collectWidgetModel, onClose, onFailed, onSuccess, enviroment).show(((FragmentActivity)context).getSupportFragmentManager(), "HomeScreen");
+            new HomeScreen(collectWidgetModel, onClose, onFailed, onSuccess, environment).show(((FragmentActivity)context).getSupportFragmentManager(), "HomeScreen");
         }else {
             StringBuilder sb=new StringBuilder("The following errors have occurred").append("\n");
             for (int i = 0; i < paramErrors.size(); i++) {

@@ -223,7 +223,7 @@ public class BankTransfer extends BottomSheetDialogFragment {
         if (passFee){
             amountText.setText(getString(R.string.amount_text, formatAmount(totalDue)));
         }else{
-            amountText.setText(getString(R.string.amount_text, formatAmount(totalDue)));
+            amountText.setText(getString(R.string.amount_text, formatAmount(amountInNaira)));
         }
 
 
