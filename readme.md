@@ -28,7 +28,7 @@ allprojects {
 Add the following lines to your app level `build.gradle`:
 ```
 dependencies {
-    implementation 'co.paystack.android:paystack:3.1.3'
+    implementation 'com.github.alome007:Collect-Widget-Android:6d62f7192b'
 }
 ```
 
