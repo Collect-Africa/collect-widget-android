@@ -15,7 +15,7 @@ import africa.collect.android.Listeners.OnSuccess;
 import africa.collect.android.Model.CollectWidgetModel;
 import africa.collect.android.Utils.Enviroment;
 
-public class CollectWidget extends AppCompatActivity {
+public class CollectWidget {
 
     //initialize variables
     String email;
