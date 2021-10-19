@@ -9,4 +9,5 @@ dependencyResolutionManagement {
 }
 rootProject.name = "CollectWidgetAndroid"
 include ':app'
+
 include ':CollectWidget'
