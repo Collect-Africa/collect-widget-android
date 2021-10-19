@@ -6,7 +6,7 @@ Collect Android Widget enables you to embed Collect's checkout into your Android
 ## Before getting started
 
 
-- Retrieve your Client Public API Keys.
+- Retrieve your Client Public API Keys from  [here](https://app.collect.africa).
 - Create a sandbox customer, so you can get connecting immediately.
 
 
@@ -82,10 +82,8 @@ Initialize the SDK:
 
 
 ## Screenshots
-<p align="center">
 <img src="https://github.com/alome007/Collect-Widget-Android/blob/main/app/screen_short_1.png" width="auto" height="492">&nbsp;&nbsp;
-<img src="https://github.com/alome007/Collect-Widget-Android/blob/main/app/screen_short_1.png" width="auto" height="492">
-</p>
+<img src="https://github.com/alome007/Collect-Widget-Android/blob/main/app/screen_short_2.png" width="auto" height="492">
 
 ## Other Information
 For enquires and questions, contact
