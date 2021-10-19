@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="amount_text">Pay NGN %1$s</string>
+    <string name="company_name_text">To %1$s</string>
+    <string name="succ_desc">NGN %1$s successfully Paid to %2$s</string>
+
+    <string name="charge_text">You will be paying NGN %1$s</string>
+
+    <string name="monnify_prod_key">MK_PROD_ME67NKQJ2A</string>
+    <string name="monnify_prod_contract">978127711387</string>
+    <string name="monnify_test_key">MK_TEST_MCR4RFJMAS</string>
+    <string name="monnify_test_contract">3459817915</string>
+    <string name="flutter_wave_pub_key_prod">FLWPUBK-45f82d30eb4e80d1ac6495e357ee5e76-X</string>
+    <string name="flutter_wave_pub_key_test">"FLWPUBK_TEST-bea841adf14ba4bf7b2dde1b7888824e-X "</string>
+    <string name="flutter_wave_enc_key_prod">49789aace7009f23766d7631</string>
+    <string name="flutter_wave_enc_key_test">FLWSECK_TEST202e194052a0</string>
+    <string name="error_phone_required">Phone number is required</string>
+    <string name="segment_key_prod">jf83xDPxRUuIMrEccq60hLhuIycZk3E8</string>
+    <string name="segment_key_sandbox">8HuJI8ARr1jfHx6PoO5dR5blR2L3PNEi</string>
+</resources>

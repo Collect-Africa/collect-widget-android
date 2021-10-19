@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="CollectWidget/src/main/res/drawable/circle_outline.xml" value="0.27239583333333334" />
+        <entry key="CollectWidget/src/main/res/drawable/edit_text_bg.xml" value="0.27239583333333334" />
+        <entry key="CollectWidget/src/main/res/drawable/green_button.xml" value="0.27239583333333334" />
+        <entry key="CollectWidget/src/main/res/drawable/ic_baseline_content_copy_24.xml" value="0.2293859649122807" />
+        <entry key="CollectWidget/src/main/res/drawable/ic_baseline_lock_24.xml" value="0.27239583333333334" />
+        <entry key="CollectWidget/src/main/res/drawable/ic_outline_lock_24.xml" value="0.27239583333333334" />
+        <entry key="CollectWidget/src/main/res/drawable/light_gray_box.xml" value="0.27239583333333334" />
+        <entry key="CollectWidget/src/main/res/drawable/primary_button.xml" value="0.27239583333333334" />
+        <entry key="CollectWidget/src/main/res/drawable/primary_secondary.xml" value="0.27239583333333334" />
+        <entry key="CollectWidget/src/main/res/drawable/resend_otp.xml" value="0.2355855855855856" />
+        <entry key="CollectWidget/src/main/res/drawable/rounded_bg.xml" value="0.17708333333333334" />
+        <entry key="CollectWidget/src/main/res/drawable/secured_by_bg.xml" value="0.27239583333333334" />
+        <entry key="CollectWidget/src/main/res/layout/bank_transfer.xml" value="0.25" />
+        <entry key="CollectWidget/src/main/res/layout/checkout_items.xml" value="0.25625" />
+        <entry key="CollectWidget/src/main/res/layout/failed.xml" value="0.23958333333333334" />
+        <entry key="CollectWidget/src/main/res/layout/home_page.xml" value="0.25625" />
+        <entry key="CollectWidget/src/main/res/layout/home_screen.xml" value="0.18981481481481483" />
+        <entry key="CollectWidget/src/main/res/layout/pay_with_opay.xml" value="0.25" />
+        <entry key="CollectWidget/src/main/res/layout/success.xml" value="0.25" />
+        <entry key="CollectWidget/src/main/res/layout/success_no_check.xml" value="0.23958333333333334" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.335" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
