@@ -56,11 +56,11 @@ Initialize the SDK:
        "NGN", // Currency 
        "", // itemImage | optional
        Enviroment.SANDBOX, // [ Enviroment.SANDBOX,Enviroment.LIVE ] | required
-       "your_collect_africa_public_key" // your collect Africa publickey
-       ).build(Activity, new OnClose() {
+       "your_collect_africa_public_key" // your collect Africa publickey )
+        .build(Activity, new OnClose() {
               @Override
               public void OnClose() {
-                     //Modal Closed
+                     //Widget Closed
               }
        },
        new OnFailed() {
