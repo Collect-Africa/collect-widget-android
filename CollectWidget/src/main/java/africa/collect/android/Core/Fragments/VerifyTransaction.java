@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -50,6 +51,7 @@ public class VerifyTransaction extends BottomSheetDialogFragment {
     TextView companyNameText,amountText,desc,referenceText, redirectText, timer, status_text;
     ProgressBar progressBar;
     ConstraintLayout constraintLayout;
+    ImageView statusImg;
 
 
     @Override
@@ -93,6 +95,9 @@ public class VerifyTransaction extends BottomSheetDialogFragment {
                         beginCountDown(timer, 5, 1);
                     }else if (chargeResponse.getData().getStatus().equalsIgnoreCase("failed")){
                         //show failed
+                        statusImg.setImageResource(R.drawable.ic_outline_cancel_24);
+                        status_text.setText(R.string.payment_failed_txt);
+                        desc.setText(getString(R.string.failed_desc, String.valueOf(amount/100)));
                         beginCountDown(timer, 5, 0);
                     }
                 }
@@ -128,6 +133,7 @@ public class VerifyTransaction extends BottomSheetDialogFragment {
         status_text = view.findViewById(R.id.status_text);
         progressBar = view.findViewById(R.id.progressBar);
         getDialog().setCanceledOnTouchOutside(false);
+        statusImg = view.findViewById(R.id.imageView2);
     }
 
     public void beginCountDown(TextView timer, int second, int type){
@@ -147,7 +153,7 @@ public class VerifyTransaction extends BottomSheetDialogFragment {
                     onSuccess.OnSuccess(reference, amount/100);
                     dismiss();
                 }else{
-                    onFailed.OnFailed("transaction failed");
+                    onFailed.OnFailed("payment failed");
                     dismiss();
                 }
 

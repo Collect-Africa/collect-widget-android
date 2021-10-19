@@ -3,6 +3,7 @@
     <string name="amount_text">Pay NGN %1$s</string>
     <string name="company_name_text">To %1$s</string>
     <string name="succ_desc">NGN %1$s successfully Paid to %2$s</string>
+    <string name="failed_desc">Payment of NGN %1$s failed</string>
 
     <string name="charge_text">You will be paying NGN %1$s</string>
 
@@ -17,4 +18,5 @@
     <string name="error_phone_required">Phone number is required</string>
     <string name="segment_key_prod">jf83xDPxRUuIMrEccq60hLhuIycZk3E8</string>
     <string name="segment_key_sandbox">8HuJI8ARr1jfHx6PoO5dR5blR2L3PNEi</string>
+    <string name="payment_failed_txt">Payment Failed</string>
 </resources>
