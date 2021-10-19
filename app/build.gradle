@@ -7,14 +7,18 @@ android {
     buildToolsVersion "30.0.3"
 
     defaultConfig {
-        applicationId "africa.collect.android"
+        applicationId "africa.collect.android.sample"
         minSdk 21
         targetSdk 31
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
+
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+
+
 
     buildTypes {
         release {

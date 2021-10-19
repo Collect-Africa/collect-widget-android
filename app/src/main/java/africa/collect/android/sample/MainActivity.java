@@ -1,4 +1,4 @@
-package africa.collect.android;
+package africa.collect.android.sample;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,12 +6,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.math.BigInteger;
-import java.util.Random;
 import java.util.UUID;
 
+import africa.collect.android.CollectWidget;
 import africa.collect.android.Listeners.OnClose;
 import africa.collect.android.Listeners.OnFailed;
 import africa.collect.android.Listeners.OnSuccess;
