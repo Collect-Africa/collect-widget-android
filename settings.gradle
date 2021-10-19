@@ -7,6 +7,6 @@ dependencyResolutionManagement {
         maven { url 'https://jitpack.io' }
     }
 }
-rootProject.name = "CollectWidget"
+rootProject.name = "CollectWidgetAndroid"
 include ':app'
 include ':CollectWidget'
