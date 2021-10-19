@@ -3,6 +3,11 @@ plugins {
     id 'maven-publish'
 }
 
+task androidSourcesJar(type: Jar) {
+    classifier 'sources'
+    from android.sourceSets.main.java.srcDirs
+}
+
 
 
 android {
@@ -14,8 +19,6 @@ android {
         targetSdk 31
         versionCode 1
         versionName "1.0"
-        multiDexEnabled true
-
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -77,4 +80,18 @@ dependencies {
 
     //Segment Analytics
     implementation 'com.segment.analytics.android:analytics:4.+'
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            // Creates a Maven publication called "release".
+            release(MavenPublication) {
+                from components.release
+                groupId = 'africa.collect.android'
+                artifactId = 'CollectWidget'
+                version = '1.0'
+            }
+        }
+    }
 }
