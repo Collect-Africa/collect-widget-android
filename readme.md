@@ -82,10 +82,10 @@ Initialize the SDK:
 
 
 ## Screenshots
-
+<p align="center">
+<img src="https://github.com/alome007/Collect-Widget-Android/blob/main/app/screen_short_1.png" width="auto" height="492">&nbsp;&nbsp;
 <img src="https://github.com/alome007/Collect-Widget-Android/blob/main/app/screen_short_1.png" width="auto" height="492">
-<img src="https://github.com/alome007/Collect-Widget-Android/blob/main/app/screen_short_1.png" width="auto" height="492">
-
+</p>
 
 ## Other Information
 For enquires and questions, contact
