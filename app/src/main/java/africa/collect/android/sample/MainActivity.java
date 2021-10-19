@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity  {
                                 10000, "NGN",
                                 "",
                                 Enviroment.SANDBOX,
-                                "pk_sandbox_8rfml1p45kjxjgd44dl9"
+                                "your_collect_africa_public_key"
                                 )
                         .build(MainActivity.this, new OnClose() {
                             @Override
