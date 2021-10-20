@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity  {
                     if(environmentPicker.getSelectedItemPosition() != 0){
                     new CollectWidget()
                             .CollectCheckout(
-                                    "john.doe@examlple.com",
+                                    "john@examlple.com",
                                     "John",
                                     "Doe",
                                     generateRef(),

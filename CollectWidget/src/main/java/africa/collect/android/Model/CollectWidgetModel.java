@@ -2,7 +2,7 @@ package africa.collect.android.Model;
 
 public class CollectWidgetModel {
     String email;
-    String firstName;
+    String first_name;
 
     public String getEmail() {
         return email;
@@ -13,19 +13,19 @@ public class CollectWidgetModel {
     }
 
     public String getFirstName() {
-        return firstName;
+        return first_name;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setFirstName(String first_name) {
+        this.first_name = first_name;
     }
 
     public String getLastName() {
-        return lastName;
+        return last_name;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setLastName(String last_name) {
+        this.last_name = last_name;
     }
 
     public String getReference() {
@@ -68,17 +68,17 @@ public class CollectWidgetModel {
         this.public_key = public_key;
     }
 
-    String lastName;
+    String last_name;
     String reference;
     int amount;
     String currency;
     String itemImage;
     String public_key;
 
-    public CollectWidgetModel(String email, String firstName, String lastName, String reference, int amount, String currency, String itemImage, String public_key) {
+    public CollectWidgetModel(String email, String first_name, String last_name, String reference, int amount, String currency, String itemImage, String public_key) {
         this.email = email;
-        this.firstName = firstName;
-        this.lastName = lastName;
+        this.first_name = first_name;
+        this.last_name = last_name;
         this.reference = reference;
         this.amount = amount;
         this.currency = currency;

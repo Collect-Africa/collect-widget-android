@@ -42,7 +42,7 @@ import africa.collect.android.R;
 public class VerifyTransaction extends BottomSheetDialogFragment {
     OnSuccess onSuccess;
     int amount;
-    String  reference,companyName, public_key, environment;
+    String  reference,companyName, public_key, environment,email;
     CheckStatus status;
     OnFailed onFailed;
 
@@ -69,6 +69,7 @@ public class VerifyTransaction extends BottomSheetDialogFragment {
     }
 
     private void checkStatus() {
+        new africa.collect.android.Utils.Analytics().Track(getContext(), "Payment Processing",  "email", email);
         amountText.setText(getString(R.string.amount_text, formatAmount(amount/100)));
         //company name
         companyNameText.setText(getString(R.string.company_name_text, companyName));
@@ -162,7 +163,7 @@ public class VerifyTransaction extends BottomSheetDialogFragment {
 
     }
 
-    public VerifyTransaction(OnSuccess onSuccess, OnFailed onFailed, String  companyName, int amount, String reference, String public_key, String environment) {
+    public VerifyTransaction(OnSuccess onSuccess, OnFailed onFailed, String  companyName, int amount, String reference, String public_key, String environment, String email) {
         this.onSuccess = onSuccess;
         this.companyName = companyName;
         this.amount = amount;
@@ -170,6 +171,7 @@ public class VerifyTransaction extends BottomSheetDialogFragment {
         this.public_key =public_key;
         this.onFailed = onFailed;
         this.environment = environment;
+        this.email = email;
     }
 
     private void setupFullHeight(BottomSheetDialog bottomSheetDialog) {

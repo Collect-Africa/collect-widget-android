@@ -18,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -77,7 +78,7 @@ public class HomeScreen extends BottomSheetDialogFragment {
     ArrayList<PaymentMethods> paymentMethods = new ArrayList<>();
     CheckoutAdapter checkoutAdapter;
     CheckoutInit init;
-    String enviroment;
+    String environment;
     Analytics analytics;
     boolean passFee;
 
@@ -87,6 +88,8 @@ public class HomeScreen extends BottomSheetDialogFragment {
     RecyclerView recyclerView;
     ConstraintLayout content,parent;
     TextView amountText,companyName;
+    ImageView close;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -110,7 +113,7 @@ public class HomeScreen extends BottomSheetDialogFragment {
                         break;
                     case "success":
                         new africa.collect.android.Utils.Analytics().Track(getContext(), "Payment Success",  "email", collectWidgetModel.getEmail());
-                        new VerifyTransaction( onSuccess, onFailed, init.getData().getBusiness_name(), collectWidgetModel.getAmount(), init.getData().getReference(), collectWidgetModel.getpublic_key(), enviroment).show(getFragmentManager(), "success!");
+                        new VerifyTransaction( onSuccess, onFailed, init.getData().getBusiness_name(), collectWidgetModel.getAmount(), init.getData().getReference(), collectWidgetModel.getpublic_key(), environment, collectWidgetModel.getEmail()).show(getFragmentManager(), "success!");
                         dismissAllowingStateLoss();
                         break;
                         case "success_no_check":
@@ -121,12 +124,12 @@ public class HomeScreen extends BottomSheetDialogFragment {
             }
         });
     }
-    public HomeScreen(CollectWidgetModel collectWidgetModel, OnClose onClose, OnFailed onFailed, OnSuccess onSuccess, String enviroment) {
+    public HomeScreen(CollectWidgetModel collectWidgetModel, OnClose onClose, OnFailed onFailed, OnSuccess onSuccess, String environment) {
         this.collectWidgetModel = collectWidgetModel;
         this.onClose = onClose;
         this.onFailed = onFailed;
         this.onSuccess = onSuccess;
-        this.enviroment = enviroment;
+        this.environment = environment;
     }
 
     @Nullable
@@ -134,8 +137,17 @@ public class HomeScreen extends BottomSheetDialogFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.home_screen, container, false);
         initUI();
-        initAnalytics(enviroment);
+        initAnalytics(environment);
         initData();
+
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                environment = "";
+                new africa.collect.android.Utils.Analytics().Track(getContext(), "Checkout closed",  "email", collectWidgetModel.getEmail());
+                dismiss();
+            }
+        });
 
         recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getContext(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
@@ -149,11 +161,9 @@ public class HomeScreen extends BottomSheetDialogFragment {
                         amount = (collectWidgetModel.getAmount() / 100);
                          percentageCharge =  (paymentMethods.get(position).getCharge_percentage()/100 * amount);
                         ChargeRequest chargeRequest = new ChargeRequest(init.getData().getEmail(), collectWidgetModel.getpublic_key(), init.getData().getReference(), "ng_bank_transfer", collectWidgetModel.getAmount());
-                        new BankTransfer(chargeRequest, init.getData().getBusiness_name(),init.getData().getAmount(),paymentMethods.get(position).getCharge_percentage(), onSuccess, onFailed, enviroment, init.getData().getPayment_methods().get(position).getCharge_cap(), passFee).show(getFragmentManager(), "bank_transfer");
+                        new BankTransfer(chargeRequest, init.getData().getBusiness_name(),init.getData().getAmount(),paymentMethods.get(position).getCharge_percentage(), onSuccess, onFailed, environment, init.getData().getPayment_methods().get(position).getCharge_cap(), passFee).show(getFragmentManager(), "bank_transfer");
                         security_footnote.setVisibility(View.GONE);
                         com.segment.analytics.Analytics.with(getContext()).track("Payment Method Clicked", new Properties().putValue("payment_method", paymentMethods.get(position).getName()));
-                        new africa.collect.android.Utils.Analytics().Track(getContext(), "Payment Processing",  "email", collectWidgetModel.getEmail());
-
                         break;
                     case "ng_barter":
                         amount = (collectWidgetModel.getAmount() / 100);
@@ -175,7 +185,7 @@ public class HomeScreen extends BottomSheetDialogFragment {
                         break;
                     case "ng_opay_wallet":
                         security_footnote.setVisibility(View.GONE);
-                        new PaywithOpay(collectWidgetModel, init, paymentMethods.get(position).getCharge_percentage(), enviroment, collectWidgetModel.getAmount()).show(getFragmentManager(), "opay_wallet");
+                        new PaywithOpay(collectWidgetModel, init, paymentMethods.get(position).getCharge_percentage(), environment, collectWidgetModel.getAmount()).show(getFragmentManager(), "opay_wallet");
                         com.segment.analytics.Analytics.with(getContext()).track("Payment Method Clicked", new Properties().putValue("payment_method", paymentMethods.get(position).getName()));
                         break;
                 }
@@ -189,8 +199,8 @@ public class HomeScreen extends BottomSheetDialogFragment {
         return view;
     }
 
-    private void initAnalytics(String enviroment) {
-        switch (enviroment){
+    private void initAnalytics(String environment) {
+        switch (environment){
             case "LIVE":
                 try {
                     analytics = new Analytics.Builder(getContext(), getString(R.string.segment_key_prod)).build();
@@ -233,12 +243,11 @@ public class HomeScreen extends BottomSheetDialogFragment {
         intent.putExtra("email", email);
         intent.putExtra("amount", chargeAmount);
         intent.putExtra("ref", ref);
-        if (enviroment.equalsIgnoreCase(SANDBOX)){
+        if (environment.equalsIgnoreCase(SANDBOX)){
             intent.putExtra("env", "SANDBOX");
         }else{
             intent.putExtra("env", "LIVE");
         }
-        new africa.collect.android.Utils.Analytics().Track(getContext(), "Payment Processing",  "email", collectWidgetModel.getEmail());
         startActivityForResult(intent, 300);
 
     }
@@ -253,7 +262,7 @@ public class HomeScreen extends BottomSheetDialogFragment {
         }
 
         String pub_key = "", enc_key="";
-        switch (enviroment){
+        switch (environment){
             case "LIVE":
                 pub_key = getString(R.string.flutter_wave_pub_key_prod);
                 enc_key = getString(R.string.flutter_wave_enc_key_prod);
@@ -277,12 +286,11 @@ public class HomeScreen extends BottomSheetDialogFragment {
         intent.putExtra("pub_key", pub_key);
         intent.putExtra("ref", ref);
         intent.putExtra("enc_key", enc_key);
-        if (enviroment == SANDBOX){
+        if (environment == SANDBOX){
             intent.putExtra("env", true);
         }  else{
             intent.putExtra("env", false);
         }
-        new africa.collect.android.Utils.Analytics().Track(getContext(), "Payment Processing",  "email", collectWidgetModel.getEmail());
         startActivityForResult(intent, 400);
     }
 
@@ -305,29 +313,30 @@ public class HomeScreen extends BottomSheetDialogFragment {
                     reArrangeItems(checkoutInit.getData().getPayment_methods());
                     init = checkoutInit;
                     paymentMethods.addAll(checkoutInit.getData().getPayment_methods());
+                    passFee = checkoutInit.getData().isPass_fee();
 
                     for (int a =0 ; a<paymentMethods.size(); a++){
                         checkoutInit.getData().getPayment_methods().get(a).setAmount(collectWidgetModel.getAmount());
-                        checkoutInit.getData().getPayment_methods().get(a).setPassFee(checkoutInit.getData().isPass_fee());
+                        checkoutInit.getData().getPayment_methods().get(a).setPassFee(passFee);
                     }
 
                     recyclerView.setAdapter(checkoutAdapter);
 
                     //convert Kobo to naira
                     int amount = collectWidgetModel.getAmount()/100;
-                    passFee = checkoutInit.getData().isPass_fee();
                     amountText.setText(getString(R.string.amount_text, checkoutAdapter.formatAmount(amount)));
 
                     //company name
                     companyName.setText(getString(R.string.company_name_text, checkoutInit.getData().getBusiness_name()));
                     security_footnote.setVisibility(View.VISIBLE);
+                    close.setVisibility(View.VISIBLE);
                     parent.setBackgroundResource(R.drawable.rounded_bg);
                     content.setVisibility(View.VISIBLE);
                 }
             }
         });
 
-        checkoutViewModel.initializeCheckout(collectWidgetModel, enviroment);
+        checkoutViewModel.initializeCheckout(collectWidgetModel, environment);
     }
 
     private void reArrangeItems(List<PaymentMethods> methodsList) {
@@ -351,6 +360,7 @@ public class HomeScreen extends BottomSheetDialogFragment {
         recyclerView = view.findViewById(R.id.checkout_recycler_view);
         content = view.findViewById(R.id.content);
         parent = view.findViewById(R.id.view);
+        close = view.findViewById(R.id.close);
         parent.setBackground(null);
 
         checkoutAdapter = new CheckoutAdapter(paymentMethods, getContext());
@@ -424,7 +434,7 @@ public class HomeScreen extends BottomSheetDialogFragment {
             put("currency", "NGN");
         }};
 
-        new africa.collect.android.Utils.Analytics().Track(getContext(), "Payment Processing",  "email", collectWidgetModel.getEmail());
+
         Intent intent = new Intent(getContext(), OkraWebActivity.class);
         intent.putExtra("okraOptions", (Serializable) dataMap);
         startActivityForResult(intent, 1);
@@ -438,7 +448,7 @@ public class HomeScreen extends BottomSheetDialogFragment {
             case  300:
                 if(resultCode == 301 || resultCode == 302){
                 // Monnify status
-                new VerifyTransaction( onSuccess, onFailed, init.getData().getBusiness_name(), collectWidgetModel.getAmount(), init.getData().getReference(), collectWidgetModel.getpublic_key(), enviroment).show(getFragmentManager(), "success!");
+                new VerifyTransaction( onSuccess, onFailed, init.getData().getBusiness_name(), collectWidgetModel.getAmount(), init.getData().getReference(), collectWidgetModel.getpublic_key(), environment, collectWidgetModel.getEmail()).show(getFragmentManager(), "success!");
                 dismissAllowingStateLoss();
             }else if(resultCode == 0){
                     // Monnify cancelled
@@ -448,7 +458,8 @@ public class HomeScreen extends BottomSheetDialogFragment {
             case 400 :
                 if( resultCode == 401 || resultCode == 402){
                     // Rave status
-                    new VerifyTransaction(onSuccess, onFailed, init.getData().getBusiness_name(), collectWidgetModel.getAmount(), init.getData().getReference(), collectWidgetModel.getpublic_key(), enviroment).show(getFragmentManager(), "success!");
+
+                    new VerifyTransaction(onSuccess, onFailed, init.getData().getBusiness_name(), collectWidgetModel.getAmount(), init.getData().getReference(), collectWidgetModel.getpublic_key(), environment, collectWidgetModel.getEmail()).show(getFragmentManager(), "success!");
                     dismissAllowingStateLoss();
                 } else if(resultCode == 403){
                     // flutterwave failed
@@ -460,7 +471,7 @@ public class HomeScreen extends BottomSheetDialogFragment {
                     OkraHandler okraHandler = (OkraHandler) data.getSerializableExtra("okraHandler");
                     String rr = okraHandler.getData();
                     if (okraHandler.getIsSuccessful()){
-                        new VerifyTransaction(onSuccess, onFailed, init.getData().getBusiness_name(), collectWidgetModel.getAmount(), init.getData().getReference(), collectWidgetModel.getpublic_key(), enviroment).show(getFragmentManager(), "success!");
+                        new VerifyTransaction(onSuccess, onFailed, init.getData().getBusiness_name(), collectWidgetModel.getAmount(), init.getData().getReference(), collectWidgetModel.getpublic_key(), environment, collectWidgetModel.getEmail()).show(getFragmentManager(), "success!");
                         dismissAllowingStateLoss();
                     }
                 }
@@ -476,7 +487,7 @@ public class HomeScreen extends BottomSheetDialogFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        enviroment = "";
+        environment = "";
         new africa.collect.android.Utils.Analytics().Track(getContext(), "Checkout closed",  "email", collectWidgetModel.getEmail());
         onClose.OnClose();
     }
@@ -484,7 +495,7 @@ public class HomeScreen extends BottomSheetDialogFragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        enviroment = "";
+        environment = "";
         new africa.collect.android.Utils.Analytics().Track(getContext(), "Checkout closed",  "email", collectWidgetModel.getEmail());
         onClose.OnClose();
     }

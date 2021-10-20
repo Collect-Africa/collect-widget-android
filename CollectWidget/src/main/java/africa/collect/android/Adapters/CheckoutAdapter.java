@@ -5,10 +5,12 @@ import static africa.collect.android.Utils.Constants.BARTER_ICON;
 import static africa.collect.android.Utils.Constants.CARD_ICON;
 import static africa.collect.android.Utils.Constants.DIRECT_DEBIT_ICON;
 import static africa.collect.android.Utils.Constants.OPAY_ICON;
+import static africa.collect.android.Utils.Constants.TAG;
 
 import android.content.Context;
 import android.graphics.drawable.PictureDrawable;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -99,6 +101,8 @@ public class CheckoutAdapter extends RecyclerView.Adapter<CheckoutAdapter.ViewHo
         }else{
             totalDue = (paymentMethods.get(position).getCharge_percentage()/100 * amount) + amount;
         }
+
+        Log.d(TAG, String.valueOf(paymentMethod.isPassFee()));
         if (paymentMethod.isPassFee()){
             holder.feeText.setText(context.getString(R.string.charge_text, formatAmount(totalDue)));
         }  else{
