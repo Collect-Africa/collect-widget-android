@@ -28,7 +28,7 @@ allprojects {
 Add the following lines to your app level `build.gradle`:
 ```
 dependencies {
-    implementation 'com.github.alome007:Collect-Widget-Android:1.0.0'
+     implementation 'com.github.Collect-Africa:collect-widget-android:v1.0'
 }
 ```
 
